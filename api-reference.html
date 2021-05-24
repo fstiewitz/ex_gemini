@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.24.2">
+    <meta name="project" content="Gemini v0.1.0">
+
+    <title>API Reference — Gemini v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
+
+    <script src="dist/sidebar_items-3fc2fd5145.js"></script>
+
+      <script src="docs_config.js"></script>
+
+    <script async src="dist/app-f27ff079945e43879c46.js"></script>
+
+  </head>
+  <body data-type="extras">
+    <script>
+
+      try {
+        if (localStorage.getItem('night-mode') === 'true') {
+          document.body.classList.add('night-mode');
+        }
+      } catch (error) { }
+    </script>
+
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button" aria-label="Submit Search">
+      <span class="icon-search" aria-hidden="true" title="Submit search"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button" aria-label="Cancel Search">
+      <span class="icon-cross" aria-hidden="true" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" class="search-input" placeholder="Search..." aria-label="Input your search terms" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="api-reference.html" class="sidebar-projectName">
+Gemini
+      </a>
+      <strong class="sidebar-projectVersion">
+        v0.1.0
+      </strong>
+    </div>
+
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list-link" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list-link" href="#full-list">Modules</a></li>
+
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>
+  API Reference <small class="app-vsn">Gemini v0.1.0</small>
+</h1>
+
+  <section class="details-list">
+    <h2 id="modules" class="section-heading">
+  <a href="#modules" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Modules
+</h2>
+
+    <div class="summary">
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Gemini.html">Gemini</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Gemini is a lightweight application protocol. This server implements a lightweight server implementation
+using Elixir.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Gemini.Binary.html">Gemini.Binary</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>This protocol serializes data structures to the gemini protocol.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Gemini.ClientConnection.html">Gemini.ClientConnection</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Represents a single connection. Spawned by <code class="inline">:ranch</code>.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Gemini.DefaultRouter.html">Gemini.DefaultRouter</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>This module receives requests from <a href="Gemini.ClientConnection.html"><code class="inline">Gemini.ClientConnection</code></a> and forwards it
+to the appropriate server instance.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Gemini.Meta.html">Gemini.Meta</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Behaviour module for complex meta types. Modules of this type can be used in place of string MIME types in <a href="Gemini.Response.html"><code class="inline">Gemini.Response</code></a>.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Gemini.Meta.Text.html">Gemini.Meta.Text</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>This module encodes <code class="inline">text/plain</code> texts.
+You can provide <code class="inline">text/plain</code> directly as a meta type in <a href="Gemini.Response.html"><code class="inline">Gemini.Response</code></a>, so this
+module is not really necessary.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Gemini.Request.html">Gemini.Request</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>A request as defined in the Gemini Protocol Specification. Stores the url of the request,
+an optional user certificate as <code class="inline">{id, meta, cert}</code> and optional user input.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Gemini.Response.html">Gemini.Response</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>A response as defined in the Gemini Protocol Specification. <code class="inline">status</code> is a two-digit tuple,
+<code class="inline">meta</code> is either a string (which will be copied into the response) or a tuple of <a href="Gemini.Meta.html"><code class="inline">Gemini.Meta</code></a> module and arguments of that module.
+<code class="inline">body</code> is nil (no body), a binary (<code class="inline">meta</code> is a string), or any data that will be passed to the <a href="Gemini.Meta.html"><code class="inline">Gemini.Meta</code></a> module.
+<code class="inline">authenticated</code> is set to false (no auth required), true (authenticated) or <code class="inline">:required</code> (user auth required).</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Gemini.Router.html">Gemini.Router</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Behaviour for router modules.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Gemini.Site.html">Gemini.Site</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Base module for sites.
+Use it with <code class="inline">use Gemini.Site</code>.
+If the <code class="inline">use</code> call is made with the option <code class="inline">:check_path</code> then <a href="#c:forward_request/2"><code class="inline">forward_request/2</code></a> will only be called if the URL path matches exactly.
+It is a good idea to enable that for &quot;leaf&quot; sites, i.e. sites that do not forward to other sites.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Gemini.Site.Authenticated.html">Gemini.Site.Authenticated</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>This module blocks requests without a user certificate.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Gemini.Site.ExInfo.html">Gemini.Site.ExInfo</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>This module prints information about the running elixir/erlang system as a <code class="inline">text/gemini</code> response.
+You probably only want this during development/testing.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Gemini.Site.File.html">Gemini.Site.File</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>  This module returns file contents as a gemini response.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Gemini.Site.Input.html">Gemini.Site.Input</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>This module asks the user for input.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Gemini.Site.Spy.html">Gemini.Site.Spy</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>This module returns all information that the server stores about your request and associated user certificate.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Gemini.Socket.html">Gemini.Socket</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Module for configuring <code class="inline">:ranch</code> in a <a href="https://hexdocs.pm/elixir/Supervisor.html"><code class="inline">Supervisor</code></a>.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Gemini.UserCache.html">Gemini.UserCache</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>This module stores active sessions.</p></div>
+
+</div>
+
+    </div>
+  </section>
+
+
+<div class="bottom-actions">
+  <div class="bottom-actions-item">
+
+  </div>
+  <div class="bottom-actions-item">
+
+  </div>
+</div>
+
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.24.2) for the
+            <a href="https://elixir-lang.org" title="Elixir" target="_blank">Elixir programming language</a>.
+          </span>
+          <span class="line">
+            Designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+
+            <a href="api-reference.html" title="API reference" class="line footer-button">API Reference</a>
+
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+
+  </body>
+</html>
