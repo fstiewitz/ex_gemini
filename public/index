@@ -1,0 +1,11 @@
+This is the *public/* directory of the *ex_gemini* project.
+
+=> auth Test authentication with your client certificate
+=> auth/test Test authentication with your client certificate (part 2)
+=> spy Inspect data the server has collected about you
+=> input_simple Test simple input
+=> input_meta Test meta input
+=> version Information about this server
+
+=> not_found This file does not exist
+=> not_site This file also does not exist
