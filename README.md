@@ -8,7 +8,7 @@ Gemini server implementation in Elixir.
 - [x] Routing
 - [x] Auth
 - [x] Input
-- [ ] Virtual Hosts (currently ignores hostname)
+- [x] Virtual Hosts (`v0.2`)
 - [x] Rate-Limiting (`v0.2`)
 - [ ] Release Configuration (necessary?)
 

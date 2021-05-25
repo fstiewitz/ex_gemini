@@ -32,7 +32,7 @@ defmodule Gemini.ClientConnection do
         if String.contains?(data, "\r\n") do
           case status do
             :not_limited ->
-              process_request(socket, transport, buffer, data, router)
+              process_request(socket, transport, buffer, data, router, addr)
 
             {:limited, x} ->
               Logger.info("44 #{:inet.ntoa(addr)}")
@@ -43,7 +43,7 @@ defmodule Gemini.ClientConnection do
               )
           end
         else
-          loop(socket, transport, buffer <> data, status, router)
+          loop(socket, transport, buffer <> data, {addr, status}, router)
         end
 
       _ ->
@@ -64,14 +64,31 @@ defmodule Gemini.ClientConnection do
     end
   end
 
-  defp process_request(socket, transport, buffer, data, router) do
+  defp process_request(socket, transport, buffer, data, router, addr) do
     url = String.split(buffer <> data, "\r\n", parts: 2) |> hd
-    request = %Gemini.Request{url: URI.parse(url), peer: get_cert(socket)}
+
+    uri =
+      case URI.parse(url) do
+        %URI{path: nil} = u -> Map.put(u, :path, "/")
+        u -> u
+      end
+
+    request = %Gemini.Request{url: uri, peer: get_cert(socket)}
 
     reply =
       case router.forward_request(request) do
-        {:ok, reply} -> reply
-        {:error, _x} -> Gemini.Site.make_response(:cgi_error, "INTERNAL ERROR", nil, [])
+        {:ok, reply} ->
+          reply
+
+        {:error, :wrong_host} ->
+          if addr != nil do
+            Logger.info("53 #{:inet.ntoa(addr)} #{Map.get(uri, :host)}")
+          end
+
+          Gemini.Site.make_response(:proxy_request_refused, "REFUSED", nil, [])
+
+        {:error, _x} ->
+          Gemini.Site.make_response(:cgi_error, "INTERNAL ERROR", nil, [])
       end
 
     transport.send(socket, Gemini.Binary.binary(reply))

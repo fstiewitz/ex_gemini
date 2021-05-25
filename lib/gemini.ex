@@ -22,7 +22,9 @@ defmodule Gemini do
   A site map is a data structure with the following shape:
 
       %{
-        "path-or-path-prefix" => {name, [args]}
+        "hostname" => %{
+          "path-or-path-prefix" => {name, [args]}
+        }
       }
 
   The value with the most specific `path-or-path-prefix` wins. `name` is either:

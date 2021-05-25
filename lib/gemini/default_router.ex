@@ -12,9 +12,10 @@ defmodule Gemini.DefaultRouter do
   """
 
   @impl true
-  def forward_request(%Gemini.Request{url: url} = request) do
-    with {:ok, sites} <- Application.fetch_env(:gemini, :sites),
-         {:ok, pid} <- get_site(url, sites),
+  def forward_request(%Gemini.Request{url: %URI{host: host, path: path} = url} = request) do
+    with {:ok, sites_hosts} <- Application.fetch_env(:gemini, :sites),
+         sites when is_map(sites) <- Map.get(sites_hosts, host, {:error, :wrong_host}),
+         {:ok, pid} <- get_site(path, sites),
          {:ok, response} <- GenServer.call(pid, {:forward_request, request}) do
       log_response(response, url)
       {:ok, response}
@@ -32,7 +33,7 @@ defmodule Gemini.DefaultRouter do
     end
   end
 
-  defp get_site(%URI{path: path}, sites) do
+  defp get_site(path, sites) do
     case Gemini.get_best_site(sites, path) do
       {:ok, {{_, n}, _}} -> {:ok, n}
       {:ok, {n, _}} -> {:ok, n}

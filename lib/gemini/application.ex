@@ -10,6 +10,8 @@ defmodule Gemini.Application do
     sites =
       Application.fetch_env!(:gemini, :sites)
       |> Map.to_list()
+      |> Enum.map(fn {_, x} -> x |> Map.to_list() end)
+      |> Enum.reduce([], fn x, acc -> acc ++ x end)
       |> Enum.map(fn {path, {name, args}} ->
         Supervisor.child_spec(
           {Gemini.get_class(name),
