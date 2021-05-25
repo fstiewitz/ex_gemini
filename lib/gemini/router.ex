@@ -9,6 +9,5 @@ defmodule Gemini.Router do
   Process `Gemini.Request`. Return `Gemini.Response`.
   """
   @callback forward_request(request :: Gemini.Request.t()) ::
-          {:ok, Gemini.Response.t()} | {:error, any()}
-
+              {:ok, Gemini.Response.t()} | {:error, any()}
 end

@@ -23,6 +23,11 @@ defmodule Gemini.MixProject do
           certfile: "certs/cert.pem",
           keyfile: "certs/key.pem"
         ],
+        rate_limit: Gemini.DefaultRateLimit,
+        rate_limit_max_age: 10,
+        rate_limit_max_calls: 20,
+        rate_limit_penalty: 60,
+        rate_limit_bracket_duration: 1,
         user_cache_cleanup_time: 3,
         router: Gemini.DefaultRouter,
         sites: %{}

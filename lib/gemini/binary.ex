@@ -49,3 +49,9 @@ defimpl Gemini.Binary, for: BitString do
     data
   end
 end
+
+defimpl Gemini.Binary, for: Integer do
+  def binary(data) do
+    "#{inspect(data)}"
+  end
+end

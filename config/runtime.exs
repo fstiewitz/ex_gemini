@@ -8,6 +8,20 @@ config :gemini, :ranch_config,
 # clean session cache every 3 minutes
 config :gemini, :user_cache_cleanup_time, 3
 
+config :gemini, :rate_limit, Gemini.DefaultRateLimit
+
+# clean rate limit IP cache every 10 minutes
+config :gemini, :rate_limit_max_age, 10
+
+# time out rate-limited IPs for 60 seconds
+config :gemini, :rate_limit_penalty, 60
+
+# max number of calls during a bracket
+config :gemini, :rate_limit_max_calls, 20
+
+# duration of one rate-limiting bracket
+config :gemini, :rate_limit_bracket_duration, 1
+
 config :gemini, :router, Gemini.DefaultRouter
 
 # Every service is a data structure of shape {Prefix, {Type, [Name, [Arguments]]}}

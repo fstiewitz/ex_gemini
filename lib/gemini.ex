@@ -43,6 +43,12 @@ defmodule Gemini do
   certificate, `id` is a hash-value of that certificate (can be assumed to be unique and should probably be used internally if you implement some kind of permanent DB)
   and `meta` is a metadata map (see Metadata below).
 
+  ### Rate-Limiting
+  Rate-limiting is turned on by default with max. 20 calls/minute and a 60 second penalty.
+  To configure the default rate-limit module, see `Gemini.DefaultRateLimit`.
+  To turn it off, set config key `:rate_limit` to false.
+  To provide your own Rate-Limit module, set `:rate_limit` to the name of the module which implements `Gemini.RateLimit`.
+
   ### Site-Modules
 
   #### `Gemini.Site.File`

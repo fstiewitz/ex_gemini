@@ -1,6 +1,7 @@
 # Copyright (c) 2021      Fabian Stiewitz <fabian@stiewitz.pw>
 # Licensed under the EUPL-1.2
 defmodule Gemini.ClientConnection do
+  require Logger
   @behaviour :ranch_protocol
 
   @moduledoc """
@@ -13,36 +14,68 @@ defmodule Gemini.ClientConnection do
     {:ok, pid}
   end
 
-  @spec init(any(), any(), keyword() | []) :: :ok
-  def init(ref, transport, _options) do
+  @spec init(any(), any(), keyword()) :: :ok
+  def init(ref, transport, options) do
     {:ok, socket} = :ranch.handshake(ref)
-    loop(socket, transport, "")
+    rate_limit_status = check_rate_limit(transport, socket, options[:rate_limit])
+    loop(socket, transport, "", rate_limit_status, options[:router])
   end
 
-  @spec loop(any(), any(), binary()) :: :ok
-  def loop(socket, transport, buffer) do
+  @type limited :: {:inet.ip_address(), {:limited, pos_integer()}}
+  @type unlimited :: {:inet.ip_address() | nil, :unlimited}
+  @type rate_limit_status() :: limited() | unlimited()
+
+  @spec loop(any(), any(), binary(), rate_limit_status(), atom()) :: :ok
+  def loop(socket, transport, buffer, {addr, status}, router) do
     case transport.recv(socket, 0, 5000) do
       {:ok, data} ->
         if String.contains?(data, "\r\n") do
-          url = String.split(buffer <> data, "\r\n", parts: 2) |> hd
-          request = %Gemini.Request{url: URI.parse(url), peer: get_cert(socket)}
-          router = Application.fetch_env!(:gemini, :router)
+          case status do
+            :not_limited ->
+              process_request(socket, transport, buffer, data, router)
 
-          reply =
-            case router.forward_request(request) do
-              {:ok, reply} -> reply
-              {:error, _x} -> Gemini.Site.make_response(:cgi_error, "INTERNAL ERROR", nil, [])
-            end
+            {:limited, x} ->
+              Logger.info("44 #{:inet.ntoa(addr)}")
 
-          transport.send(socket, Gemini.Binary.binary(reply))
-          :ok = transport.close(socket)
+              transport.send(
+                socket,
+                Gemini.Binary.binary(Gemini.Site.make_response(:slow_down, x, nil, []))
+              )
+          end
         else
-          loop(socket, transport, buffer <> data)
+          loop(socket, transport, buffer <> data, status, router)
         end
 
       _ ->
         :ok = transport.close(socket)
     end
+  end
+
+  defp check_rate_limit(_transport, _socket, false), do: {nil, :not_limited}
+
+  defp check_rate_limit(transport, socket, rate_limit) do
+    case transport.peername(socket) do
+      {:ok, {addr, _port}} ->
+        {addr, rate_limit.is_rate_limited(addr)}
+
+      {:error, reason} ->
+        Logger.error("cannot get peer address. rate limiting may not work: #{inspect(reason)}")
+        {nil, :not_limited}
+    end
+  end
+
+  defp process_request(socket, transport, buffer, data, router) do
+    url = String.split(buffer <> data, "\r\n", parts: 2) |> hd
+    request = %Gemini.Request{url: URI.parse(url), peer: get_cert(socket)}
+
+    reply =
+      case router.forward_request(request) do
+        {:ok, reply} -> reply
+        {:error, _x} -> Gemini.Site.make_response(:cgi_error, "INTERNAL ERROR", nil, [])
+      end
+
+    transport.send(socket, Gemini.Binary.binary(reply))
+    :ok = transport.close(socket)
   end
 
   defp get_cert(socket) do

@@ -87,7 +87,7 @@ defmodule Gemini.Site.Input do
   end
 
   def forward_request(
-         %Gemini.Request{url: %URI{query: query, path: p}, peer: {hash, _meta, cert}} = req,
+        %Gemini.Request{url: %URI{query: query, path: p}, peer: {hash, _meta, cert}} = req,
         %{as_meta: true, key: key, sites: sites, path: path} = state
       ) do
     {:ok, meta} = Gemini.UserCache.put_metadata(hash, key, query)

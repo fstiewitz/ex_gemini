@@ -35,6 +35,7 @@ defmodule Gemini.Site do
               state
             ) do
           s = Gemini.remove_trailing_slash(p)
+
           if String.equivalent?(s, path(state)) do
             forward_request(req, state)
           else
@@ -48,7 +49,6 @@ defmodule Gemini.Site do
 
         @impl true
         def handle_call({:forward_request, req}, _from, state), do: forward_request(req, state)
-
       end
     end
   end
@@ -63,17 +63,35 @@ defmodule Gemini.Site do
   @callback start_link(list()) :: GenServer.on_start()
 
   @doc """
-  Handle/Forward request. Think of it as `GenServer.handle_call/3` without the middle `from` argument.
+  Handle/Forward request. Think of it as `c:GenServer.handle_call/3` without the middle `from` argument.
   """
-  @callback forward_request(request :: Gemini.Request.t(), state :: any()) :: {:reply, any(), any()}
+  @callback forward_request(request :: Gemini.Request.t(), state :: any()) ::
+              {:reply, any(), any()}
 
   @doc """
   Return path supplied in `c:start_link/1` using the state.
   """
   @callback path(state :: any()) :: binary()
-  @type status_decl :: {pos_integer(), non_neg_integer()} | :input | :sensitive_input | :success | :redirect_temporary | :redirect_permanent
-  | :temporary_failure | :server_unavailable | :cgi_error | :proxy_error | :slow_down | :permanent_failure | :not_found | :gone | :proxy_request_refused
-  | :bad_request | :client_certificate_required | :certificate_not_authorised | :certificate_not_valid
+  @type status_decl ::
+          {pos_integer(), non_neg_integer()}
+          | :input
+          | :sensitive_input
+          | :success
+          | :redirect_temporary
+          | :redirect_permanent
+          | :temporary_failure
+          | :server_unavailable
+          | :cgi_error
+          | :proxy_error
+          | :slow_down
+          | :permanent_failure
+          | :not_found
+          | :gone
+          | :proxy_request_refused
+          | :bad_request
+          | :client_certificate_required
+          | :certificate_not_authorised
+          | :certificate_not_valid
 
   @spec make_response(
           status :: Gemini.Site.status_decl(),

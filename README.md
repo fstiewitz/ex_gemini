@@ -9,7 +9,7 @@ Gemini server implementation in Elixir.
 - [x] Auth
 - [x] Input
 - [ ] Virtual Hosts (currently ignores hostname)
-- [ ] Rate-Limiting
+- [x] Rate-Limiting (`v0.2`)
 - [ ] Release Configuration (necessary?)
 
 ## Installation (standalone)
