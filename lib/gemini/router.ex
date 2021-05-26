@@ -5,9 +5,10 @@ defmodule Gemini.Router do
   Behaviour for router modules.
   """
 
+  @type forward_return :: {:ok, Gemini.Response.t()} | {:error, any()}
+
   @doc """
   Process `Gemini.Request`. Return `Gemini.Response`.
   """
-  @callback forward_request(request :: Gemini.Request.t()) ::
-              {:ok, Gemini.Response.t()} | {:error, any()}
+  @callback forward_request(request :: Gemini.Request.t()) :: forward_return()
 end

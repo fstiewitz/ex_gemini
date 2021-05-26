@@ -12,17 +12,16 @@ defmodule Gemini.DefaultRouter do
   """
 
   @impl true
-  def forward_request(%Gemini.Request{url: %URI{host: host, path: path} = url} = request) do
+  def forward_request(%Gemini.Request{url: %URI{host: host, path: path}} = request) do
     with {:ok, sites_hosts} <- Application.fetch_env(:gemini, :sites),
          sites when is_map(sites) <- Map.get(sites_hosts, host, {:error, :wrong_host}),
          {:ok, pid} <- get_site(path, sites),
          {:ok, response} <- GenServer.call(pid, {:forward_request, request}) do
-      log_response(response, url)
       {:ok, response}
     else
       {:error, :notfound} ->
-        Logger.info("51 #{url |> URI.to_string()}")
-        {:ok, %Gemini.Response{status: {5, 1}, meta: "Not Found", body: nil}}
+        response = %Gemini.Response{status: {5, 1}, meta: "Not Found", body: nil}
+        {:ok, response}
 
       {:error, x} ->
         {:error, x}
@@ -41,11 +40,4 @@ defmodule Gemini.DefaultRouter do
     end
   end
 
-  defp log_response(%Gemini.Response{status: {s0, s1}, authenticated: auth}, url) do
-    case auth do
-      false -> Logger.info("#{s0}#{s1} #{url |> URI.to_string()}")
-      :required -> Logger.info("#{s0}#{s1} #{url |> URI.to_string()}")
-      true -> Logger.info("#{s0}#{s1} #{url |> URI.to_string()} (authenticated)")
-    end
-  end
 end

@@ -1,6 +1,8 @@
 # Copyright (c) 2021      Fabian Stiewitz <fabian@stiewitz.pw>
 # Licensed under the EUPL-1.2
 defmodule Gemini do
+  require Logger
+
   @moduledoc """
   Gemini is a lightweight application protocol. This server implements a lightweight server implementation
   using Elixir.
@@ -203,5 +205,26 @@ defmodule Gemini do
       String.ends_with?(path, "/") -> String.at(path, String.length(path) - 1)
       true -> path
     end
+  end
+
+  @doc """
+  Log request & response to Logger.
+  """
+  @spec log_response(Gemini.Response.t(), Gemini.Request.t()) :: :ok
+  def log_response(%Gemini.Response{status: {s0, s1}, authenticated: auth}, %Gemini.Request{url: url, client: nil}) do
+    case auth do
+      false -> Logger.info("#{s0}#{s1} #{url |> URI.to_string()}")
+      :required -> Logger.info("#{s0}#{s1} #{url |> URI.to_string()}")
+      true -> Logger.info("#{s0}#{s1} #{url |> URI.to_string()} (authenticated)")
+    end
+    :ok
+  end
+  def log_response(%Gemini.Response{status: {s0, s1}, authenticated: auth}, %Gemini.Request{url: url, client: client}) do
+    case auth do
+      false -> Logger.info("#{s0}#{s1} #{:inet.ntoa(client)} #{url |> URI.to_string()}")
+      :required -> Logger.info("#{s0}#{s1} #{:inet.ntoa(client)} #{url |> URI.to_string()}")
+      true -> Logger.info("#{s0}#{s1} #{:inet.ntoa(client)} #{url |> URI.to_string()} (authenticated)")
+    end
+    :ok
   end
 end

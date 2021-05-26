@@ -1,6 +1,7 @@
 # Copyright (c) 2021      Fabian Stiewitz <fabian@stiewitz.pw>
 # Licensed under the EUPL-1.2
 defmodule Gemini.Response do
+  @enforce_keys [:status, :meta, :body]
   defstruct status: {0, 0}, meta: "", body: nil, authenticated: false
 
   @type t :: %__MODULE__{

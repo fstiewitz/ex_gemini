@@ -73,24 +73,21 @@ defmodule Gemini.ClientConnection do
         u -> u
       end
 
-    request = %Gemini.Request{url: uri, peer: get_cert(socket)}
+    request = %Gemini.Request{url: uri, peer: get_cert(socket), client: addr}
 
     reply =
       case router.forward_request(request) do
-        {:ok, reply} ->
+        {:ok, %Gemini.Response{} = reply} ->
           reply
 
         {:error, :wrong_host} ->
-          if addr != nil do
-            Logger.info("53 #{:inet.ntoa(addr)} #{Map.get(uri, :host)}")
-          end
-
           Gemini.Site.make_response(:proxy_request_refused, "REFUSED", nil, [])
 
         {:error, _x} ->
           Gemini.Site.make_response(:cgi_error, "INTERNAL ERROR", nil, [])
       end
 
+    Gemini.log_response(reply, request)
     transport.send(socket, Gemini.Binary.binary(reply))
     :ok = transport.close(socket)
   end

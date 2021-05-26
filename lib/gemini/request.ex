@@ -1,12 +1,14 @@
 # Copyright (c) 2021      Fabian Stiewitz <fabian@stiewitz.pw>
 # Licensed under the EUPL-1.2
 defmodule Gemini.Request do
-  defstruct url: %URI{}, peer: nil, input: nil
+  @enforce_keys [:url, :peer, :client]
+  defstruct url: %URI{}, peer: nil, input: nil, client: nil
 
   @type t :: %__MODULE__{
           url: URI.t(),
           peer: nil | {hash :: binary(), metadata :: map(), cert :: binary()},
-          input: binary()
+          input: nil | binary(),
+          client: :inet.ip_address() | nil
         }
 
   @moduledoc """
