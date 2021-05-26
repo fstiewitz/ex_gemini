@@ -1,9 +1,11 @@
 404.html
 Gemini.Binary.html
 Gemini.ClientConnection.html
+Gemini.DefaultRateLimit.html
 Gemini.DefaultRouter.html
 Gemini.Meta.Text.html
 Gemini.Meta.html
+Gemini.RateLimit.html
 Gemini.Request.html
 Gemini.Response.html
 Gemini.Router.html
@@ -23,7 +25,7 @@ dist/html/fonts/icomoon.eot
 dist/html/fonts/icomoon.svg
 dist/html/fonts/icomoon.ttf
 dist/html/fonts/icomoon.woff
-dist/search_items-6f0cec3725.js
-dist/sidebar_items-3fc2fd5145.js
+dist/search_items-0c71bfd5df.js
+dist/sidebar_items-bd69bbdada.js
 index.html
 search.html

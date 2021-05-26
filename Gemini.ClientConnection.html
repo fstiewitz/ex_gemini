@@ -5,12 +5,12 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.24.2">
-    <meta name="project" content="Gemini v0.1.0">
+    <meta name="project" content="Gemini v0.2.0">
 
-    <title>Gemini.ClientConnection — Gemini v0.1.0</title>
+    <title>Gemini.ClientConnection — Gemini v0.2.0</title>
     <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
 
-    <script src="dist/sidebar_items-3fc2fd5145.js"></script>
+    <script src="dist/sidebar_items-bd69bbdada.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -57,7 +57,7 @@
 Gemini
       </a>
       <strong class="sidebar-projectVersion">
-        v0.1.0
+        v0.2.0
       </strong>
     </div>
 
@@ -79,7 +79,7 @@ Gemini
     <div id="content" class="content-inner">
 
       <h1>
-Gemini.ClientConnection <small class="app-vsn">(Gemini v0.1.0)</small>
+Gemini.ClientConnection <small class="app-vsn">(Gemini v0.2.0)</small>
 
       </h1>
 
@@ -98,6 +98,34 @@ Gemini.ClientConnection <small class="app-vsn">(Gemini v0.1.0)</small>
             Summary
           </h1>
 
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:limited/0">limited()</a>
+
+  </div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:rate_limit_status/0">rate_limit_status()</a>
+
+  </div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:unlimited/0">unlimited()</a>
+
+  </div>
+
+</div>
+
+  </div>
+
   <div class="summary-functions summary">
     <h2>
       <a href="#functions">Functions</a>
@@ -111,7 +139,7 @@ Gemini.ClientConnection <small class="app-vsn">(Gemini v0.1.0)</small>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#loop/3">loop(socket, transport, buffer)</a>
+    <a href="#loop/5">loop(socket, transport, buffer, arg, router)</a>
 
   </div>
 
@@ -121,6 +149,91 @@ Gemini.ClientConnection <small class="app-vsn">(Gemini v0.1.0)</small>
 
         </section>
 
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types
+          </h1>
+          <div class="types-list">
+<section class="detail" id="t:limited/0">
+
+  <div class="detail-header">
+    <a href="#t:limited/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">limited()</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>limited() :: {<a href="https://erlang.org/doc/man/inet.html#type-ip_address">:inet.ip_address</a>(), {:limited, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pos_integer</a>()}}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="t:rate_limit_status/0">
+
+  <div class="detail-header">
+    <a href="#t:rate_limit_status/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">rate_limit_status()</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>rate_limit_status() :: <a href="#t:limited/0">limited</a>() | <a href="#t:unlimited/0">unlimited</a>()</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="t:unlimited/0">
+
+  <div class="detail-header">
+    <a href="#t:unlimited/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">unlimited()</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>unlimited() :: {<a href="https://erlang.org/doc/man/inet.html#type-ip_address">:inet.ip_address</a>() | nil, :unlimited}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+
+          </div>
+        </section>
 
         <section id="functions" class="details-list">
           <h1 class="section-heading">
@@ -148,21 +261,21 @@ Functions
       <h2>Specs</h2>
       <div class="specs">
 
-          <pre>init(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">keyword</a>() | []) :: :ok</pre>
+          <pre>init(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">keyword</a>()) :: :ok</pre>
 
       </div>
 
 
   </section>
 </section>
-<section class="detail" id="loop/3">
+<section class="detail" id="loop/5">
 
   <div class="detail-header">
-    <a href="#loop/3" class="detail-link" title="Link to this function">
+    <a href="#loop/5" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature">loop(socket, transport, buffer)</h1>
+    <h1 class="signature">loop(socket, transport, buffer, arg, router)</h1>
 
 
   </div>
@@ -172,7 +285,7 @@ Functions
       <h2>Specs</h2>
       <div class="specs">
 
-          <pre>loop(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()) :: :ok</pre>
+          <pre>loop(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(), <a href="#t:rate_limit_status/0">rate_limit_status</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) :: :ok</pre>
 
       </div>
 

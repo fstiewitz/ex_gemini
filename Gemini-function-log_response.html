@@ -7,7 +7,7 @@
     <meta name="generator" content="ExDoc v0.24.2">
     <meta name="project" content="Gemini v0.2.0">
 
-    <title>Gemini.UserCache.put_metadata — Gemini v0.2.0</title>
+    <title>Gemini.log_response — Gemini v0.2.0</title>
     <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
 
     <script src="dist/sidebar_items-bd69bbdada.js"></script>
@@ -78,20 +78,20 @@ Gemini
   <div class="content-outer">
     <div id="content" class="content-inner">
 
-<h1>Gemini.UserCache.put_metadata</h1>
+<h1>Gemini.log_response</h1>
 
 <div class="deprecated">
-  You're seeing just the function <code>put_metadata</code>, go back to <a href="Gemini.UserCache.html">Gemini.UserCache</a> module for more information.
+  You're seeing just the function <code>log_response</code>, go back to <a href="Gemini.html">Gemini</a> module for more information.
 </div>
 
-<section class="detail" id="put_metadata/3">
+<section class="detail" id="log_response/2">
 
   <div class="detail-header">
-    <a href="#put_metadata/3" class="detail-link" title="Link to this function">
+    <a href="#log_response/2" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature">put_metadata(cert, k, v)</h1>
+    <h1 class="signature">log_response(response, request)</h1>
 
 
   </div>
@@ -101,11 +101,11 @@ Gemini
       <h2>Specs</h2>
       <div class="specs">
 
-          <pre>put_metadata(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()) :: {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()}</pre>
+          <pre>log_response(<a href="Gemini.Response.html#t:t/0">Gemini.Response.t</a>(), <a href="Gemini.Request.html#t:t/0">Gemini.Request.t</a>()) :: :ok</pre>
 
       </div>
 
-<p>Put metadata into session cache.</p>
+<p>Log request &amp; response to Logger.</p>
   </section>
 </section>
 

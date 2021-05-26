@@ -7,7 +7,7 @@
     <meta name="generator" content="ExDoc v0.24.2">
     <meta name="project" content="Gemini v0.2.0">
 
-    <title>Gemini.Site.File — Gemini v0.2.0</title>
+    <title>Gemini.DefaultRateLimit — Gemini v0.2.0</title>
     <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
 
     <script src="dist/sidebar_items-bd69bbdada.js"></script>
@@ -79,13 +79,13 @@ Gemini
     <div id="content" class="content-inner">
 
       <h1>
-Gemini.Site.File <small class="app-vsn">(Gemini v0.2.0)</small>
+Gemini.DefaultRateLimit <small class="app-vsn">(Gemini v0.2.0)</small>
 
       </h1>
 
 
         <section id="moduledoc">
-<p>  This module returns file contents as a gemini response.</p>
+<p>This module keeps track of IP addresses for rate-limiting.</p><p>To configure rate-limiting, use the following config keys:</p><ul><li>periodic cleanup after <code class="inline">:rate_limit_max_age</code> minutes.</li><li>allow <code class="inline">:rate_limit_max_calls</code> within <code class="inline">:rate_limit_bracket_duration</code> minutes or get rate-limited.</li><li><code class="inline">:rate_limit_penalty</code> <em>seconds</em> of rate-limiting.</li></ul>
         </section>
 
 
@@ -97,20 +97,6 @@ Gemini.Site.File <small class="app-vsn">(Gemini v0.2.0)</small>
             </a>
             Summary
           </h1>
-
-  <div class="summary-types summary">
-    <h2>
-      <a href="#types">Types</a>
-    </h2>
-<div class="summary-row">
-  <div class="summary-signature">
-    <a href="#t:cache_spec/0">cache_spec()</a>
-
-  </div>
-
-</div>
-
-  </div>
 
   <div class="summary-functions summary">
     <h2>
@@ -127,18 +113,9 @@ Gemini.Site.File <small class="app-vsn">(Gemini v0.2.0)</small>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#make_response/4">make_response(status, meta, body, attrs)</a>
+    <a href="#start_link/1">start_link(_)</a>
 
   </div>
-
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
-    <a href="#start_link/1">start_link(list)</a>
-
-  </div>
-
-    <div class="summary-synopsis"><p>Start site.</p></div>
 
 </div>
 
@@ -146,43 +123,6 @@ Gemini.Site.File <small class="app-vsn">(Gemini v0.2.0)</small>
 
         </section>
 
-
-        <section id="types" class="details-list">
-          <h1 class="section-heading">
-            <a class="hover-link" href="#types">
-              <span class="icon-link" aria-hidden="true"></span>
-              <span class="sr-only">Link to this section</span>
-            </a>
-Types
-          </h1>
-          <div class="types-list">
-<section class="detail" id="t:cache_spec/0">
-
-  <div class="detail-header">
-    <a href="#t:cache_spec/0" class="detail-link" title="Link to this type">
-      <span class="icon-link" aria-hidden="true"></span>
-      <span class="sr-only">Link to this type</span>
-    </a>
-    <h1 class="signature">cache_spec()</h1>
-
-
-  </div>
-
-  <section class="docstring">
-
-      <h2>Specs</h2>
-      <div class="specs">
-
-          <pre>cache_spec() :: :disabled | :infinity | <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pos_integer</a>()</pre>
-
-      </div>
-
-
-  </section>
-</section>
-
-          </div>
-        </section>
 
         <section id="functions" class="details-list">
           <h1 class="section-heading">
@@ -210,23 +150,6 @@ Functions
 <p>Returns a specification to start this module under a supervisor.</p><p>See <a href="https://hexdocs.pm/elixir/Supervisor.html"><code class="inline">Supervisor</code></a>.</p>
   </section>
 </section>
-<section class="detail" id="make_response/4">
-
-  <div class="detail-header">
-    <a href="#make_response/4" class="detail-link" title="Link to this function">
-      <span class="icon-link" aria-hidden="true"></span>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature">make_response(status, meta, body, attrs)</h1>
-
-
-  </div>
-
-  <section class="docstring">
-
-
-  </section>
-</section>
 <section class="detail" id="start_link/1">
 
   <div class="detail-header">
@@ -234,16 +157,21 @@ Functions
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature">start_link(list)</h1>
+    <h1 class="signature">start_link(_)</h1>
 
 
   </div>
 
   <section class="docstring">
 
-<p>Start site.</p><ul><li><code class="inline">name</code> name of the server.</li><li><code class="inline">path</code> Path prefix.</li></ul><p><code class="inline">args</code> is a list with two arguments:</p><ul><li>a file path</li><li>meta type of the file contents</li><li>a cache value</li></ul><p>A cache value of <code class="inline">:disabled</code> disables the cache and the file will be loaded from disk on every access.
-A value of <code class="inline">:infinity</code> permanently caches the value in memory.
-A positive number of minutes clears the value from the cache if nobody accessed it in a fixed amount of minutes.</p>
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>start_link(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()) :: <a href="https://hexdocs.pm/elixir/GenServer.html#t:on_start/0">GenServer.on_start</a>()</pre>
+
+      </div>
+
+
   </section>
 </section>
 

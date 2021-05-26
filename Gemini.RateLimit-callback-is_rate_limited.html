@@ -7,7 +7,7 @@
     <meta name="generator" content="ExDoc v0.24.2">
     <meta name="project" content="Gemini v0.2.0">
 
-    <title>Gemini.UserCache.put_metadata — Gemini v0.2.0</title>
+    <title>Gemini.RateLimit.is_rate_limited — Gemini v0.2.0</title>
     <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
 
     <script src="dist/sidebar_items-bd69bbdada.js"></script>
@@ -78,20 +78,20 @@ Gemini
   <div class="content-outer">
     <div id="content" class="content-inner">
 
-<h1>Gemini.UserCache.put_metadata</h1>
+<h1>Gemini.RateLimit.is_rate_limited</h1>
 
 <div class="deprecated">
-  You're seeing just the function <code>put_metadata</code>, go back to <a href="Gemini.UserCache.html">Gemini.UserCache</a> module for more information.
+  You're seeing just the callback <code>is_rate_limited</code>, go back to <a href="Gemini.RateLimit.html">Gemini.RateLimit</a> module for more information.
 </div>
 
-<section class="detail" id="put_metadata/3">
+<section class="detail" id="c:is_rate_limited/1">
 
   <div class="detail-header">
-    <a href="#put_metadata/3" class="detail-link" title="Link to this function">
+    <a href="#c:is_rate_limited/1" class="detail-link" title="Link to this callback">
       <span class="icon-link" aria-hidden="true"></span>
-      <span class="sr-only">Link to this function</span>
+      <span class="sr-only">Link to this callback</span>
     </a>
-    <h1 class="signature">put_metadata(cert, k, v)</h1>
+    <h1 class="signature">is_rate_limited(addr)</h1>
 
 
   </div>
@@ -101,11 +101,12 @@ Gemini
       <h2>Specs</h2>
       <div class="specs">
 
-          <pre>put_metadata(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()) :: {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()}</pre>
+          <pre>is_rate_limited(addr :: <a href="https://erlang.org/doc/man/inet.html#type-ip_address">:inet.ip_address</a>()) ::
+  {:limited, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pos_integer</a>()} | :not_limited</pre>
 
       </div>
 
-<p>Put metadata into session cache.</p>
+<p>Check if IP-address is rate-limited.</p><p>Returns :not_limited or {:limited, minutes}.</p>
   </section>
 </section>
 

@@ -5,12 +5,12 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.24.2">
-    <meta name="project" content="Gemini v0.1.0">
+    <meta name="project" content="Gemini v0.2.0">
 
-    <title>Gemini.Request — Gemini v0.1.0</title>
+    <title>Gemini.Request — Gemini v0.2.0</title>
     <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
 
-    <script src="dist/sidebar_items-3fc2fd5145.js"></script>
+    <script src="dist/sidebar_items-bd69bbdada.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -57,7 +57,7 @@
 Gemini
       </a>
       <strong class="sidebar-projectVersion">
-        v0.1.0
+        v0.2.0
       </strong>
     </div>
 
@@ -79,7 +79,7 @@ Gemini
     <div id="content" class="content-inner">
 
       <h1>
-Gemini.Request <small class="app-vsn">(Gemini v0.1.0)</small>
+Gemini.Request <small class="app-vsn">(Gemini v0.2.0)</small>
 
       </h1>
 
@@ -143,7 +143,8 @@ Types
       <div class="specs">
 
           <pre>t() :: %Gemini.Request{
-  input: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  client: <a href="https://erlang.org/doc/man/inet.html#type-ip_address">:inet.ip_address</a>() | nil,
+  input: nil | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
   peer: nil | {hash :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(), metadata :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>(), cert :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()},
   url: <a href="https://hexdocs.pm/elixir/URI.html#t:t/0">URI.t</a>()
 }</pre>

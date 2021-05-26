@@ -5,12 +5,12 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.24.2">
-    <meta name="project" content="Gemini v0.1.0">
+    <meta name="project" content="Gemini v0.2.0">
 
-    <title>Gemini — Gemini v0.1.0</title>
+    <title>Gemini — Gemini v0.2.0</title>
     <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
 
-    <script src="dist/sidebar_items-3fc2fd5145.js"></script>
+    <script src="dist/sidebar_items-bd69bbdada.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -57,7 +57,7 @@
 Gemini
       </a>
       <strong class="sidebar-projectVersion">
-        v0.1.0
+        v0.2.0
       </strong>
     </div>
 
@@ -79,7 +79,7 @@ Gemini
     <div id="content" class="content-inner">
 
       <h1>
-Gemini <small class="app-vsn">(Gemini v0.1.0)</small>
+Gemini <small class="app-vsn">(Gemini v0.2.0)</small>
 
       </h1>
 
@@ -98,53 +98,62 @@ using Elixir.</p><h2 id="module-architecture" class="section-heading">
   <a href="#module-site-map" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
   Site-Map
 </h3>
-<p>A site map is a data structure with the following shape:</p><pre><code class="makeup elixir"><span class="p" data-group-id="5014721423-1">%{</span><span class="w">
-  </span><span class="s">&quot;path-or-path-prefix&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="5014721423-2">{</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5014721423-3">[</span><span class="n">args</span><span class="p" data-group-id="5014721423-3">]</span><span class="p" data-group-id="5014721423-2">}</span><span class="w">
-</span><span class="p" data-group-id="5014721423-1">}</span></code></pre><p>The value with the most specific <code class="inline">path-or-path-prefix</code> wins. <code class="inline">name</code> is either:</p><ul><li>a site module <code class="inline">name</code> which will be registered under the same name.</li><li>a tuple of <code class="inline">{mod, name}</code>: A site module <code class="inline">mod</code> registered under the name <code class="inline">name</code>.</li></ul><p>The module is started with <code class="inline">args</code> under the supervision of <code class="inline">Gemini.Supervisor</code>.</p><p>The top-level site-map is the config key <code class="inline">:sites</code>.</p><p>If you do not need a site-map or you want to run your own routing, set config key <code class="inline">:router</code> to a module which implements <a href="Gemini.Router.html"><code class="inline">Gemini.Router</code></a>.</p><h3 id="module-certificates" class="section-heading">
+<p>A site map is a data structure with the following shape:</p><pre><code class="makeup elixir"><span class="p" data-group-id="4139703135-1">%{</span><span class="w">
+  </span><span class="s">&quot;hostname&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="4139703135-2">%{</span><span class="w">
+    </span><span class="s">&quot;path-or-path-prefix&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="4139703135-3">{</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4139703135-4">[</span><span class="n">args</span><span class="p" data-group-id="4139703135-4">]</span><span class="p" data-group-id="4139703135-3">}</span><span class="w">
+  </span><span class="p" data-group-id="4139703135-2">}</span><span class="w">
+</span><span class="p" data-group-id="4139703135-1">}</span></code></pre><p>The value with the most specific <code class="inline">path-or-path-prefix</code> wins. <code class="inline">name</code> is either:</p><ul><li>a site module <code class="inline">name</code> which will be registered under the same name.</li><li>a tuple of <code class="inline">{mod, name}</code>: A site module <code class="inline">mod</code> registered under the name <code class="inline">name</code>.</li></ul><p>The module is started with <code class="inline">args</code> under the supervision of <code class="inline">Gemini.Supervisor</code>.</p><p>The top-level site-map is the config key <code class="inline">:sites</code>.</p><p>If you do not need a site-map or you want to run your own routing, set config key <code class="inline">:router</code> to a module which implements <a href="Gemini.Router.html"><code class="inline">Gemini.Router</code></a>.</p><h3 id="module-certificates" class="section-heading">
   <a href="#module-certificates" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
   Certificates
 </h3>
 <p><code class="inline">:ranch</code> is configured using the config key <code class="inline">:ranch_config</code>. Use it to configure at least <code class="inline">:port</code>, <code class="inline">:certfile</code> and <code class="inline">:keyfile</code>.
 <code class="inline">:verify</code> and <code class="inline">:verify_fun</code> is overwritten by the program.</p><p>The certificate provided by the user is stored in the <code class="inline">:peer</code> property of <a href="Gemini.Request.html"><code class="inline">Gemini.Request</code></a> as <code class="inline">{id, meta, cert}</code>. <code class="inline">cert</code> is the DER-encoded
 certificate, <code class="inline">id</code> is a hash-value of that certificate (can be assumed to be unique and should probably be used internally if you implement some kind of permanent DB)
-and <code class="inline">meta</code> is a metadata map (see Metadata below).</p><h3 id="module-site-modules" class="section-heading">
+and <code class="inline">meta</code> is a metadata map (see Metadata below).</p><h3 id="module-rate-limiting" class="section-heading">
+  <a href="#module-rate-limiting" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Rate-Limiting
+</h3>
+<p>Rate-limiting is turned on by default with max. 20 calls/minute and a 60 second penalty.
+To configure the default rate-limit module, see <a href="Gemini.DefaultRateLimit.html"><code class="inline">Gemini.DefaultRateLimit</code></a>.
+To turn it off, set config key <code class="inline">:rate_limit</code> to false.
+To provide your own Rate-Limit module, set <code class="inline">:rate_limit</code> to the name of the module which implements <a href="Gemini.RateLimit.html"><code class="inline">Gemini.RateLimit</code></a>.</p><h3 id="module-site-modules" class="section-heading">
   <a href="#module-site-modules" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
   Site-Modules
 </h3>
-<h4><a href="Gemini.Site.File.html"><code class="inline">Gemini.Site.File</code></a></h4><p>Serves a single file.</p><pre><code class="makeup elixir"><span class="p" data-group-id="3893893191-1">%{</span><span class="s">&quot;/&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="3893893191-2">{</span><span class="w">
-    </span><span class="p" data-group-id="3893893191-3">{</span><span class="nc">Gemini.Site.File</span><span class="p">,</span><span class="w"> </span><span class="nc">MyIndex</span><span class="p" data-group-id="3893893191-3">}</span><span class="p">,</span><span class="w">
-    </span><span class="p" data-group-id="3893893191-4">[</span><span class="s">&quot;public/index&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;text/gemini&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">:infinity</span><span class="p" data-group-id="3893893191-4">]</span><span class="p" data-group-id="3893893191-2">}</span><span class="p" data-group-id="3893893191-1">}</span></code></pre><h4><a href="Gemini.Site.Authenticated.html"><code class="inline">Gemini.Site.Authenticated</code></a></h4><p>Require user certificate.</p><pre><code class="makeup elixir"><span class="p" data-group-id="9799128166-1">%{</span><span class="s">&quot;/auth&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="9799128166-2">{</span><span class="w">
-    </span><span class="p" data-group-id="9799128166-3">{</span><span class="nc">Gemini.Site.Authenticated</span><span class="p">,</span><span class="w"> </span><span class="nc">MyAuth</span><span class="p" data-group-id="9799128166-3">}</span><span class="p">,</span><span class="w">
-    </span><span class="p" data-group-id="9799128166-4">[</span><span class="ss">sites</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9799128166-5">%{</span><span class="s">&quot;/&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="9799128166-6">{</span><span class="w">
-                </span><span class="p" data-group-id="9799128166-7">{</span><span class="nc">Gemini.Site.File</span><span class="p">,</span><span class="w"> </span><span class="nc">MyAuthedFile</span><span class="p" data-group-id="9799128166-7">}</span><span class="p">,</span><span class="w">
-                </span><span class="p" data-group-id="9799128166-8">[</span><span class="s">&quot;public/authed&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;text/gemini&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">:infinity</span><span class="p" data-group-id="9799128166-8">]</span><span class="p" data-group-id="9799128166-6">}</span><span class="p" data-group-id="9799128166-5">}</span><span class="p" data-group-id="9799128166-4">]</span><span class="p" data-group-id="9799128166-2">}</span><span class="p" data-group-id="9799128166-1">}</span></code></pre><h4><a href="Gemini.Site.Input.html"><code class="inline">Gemini.Site.Input</code></a></h4><p>Require user input.</p><pre><code class="makeup elixir"><span class="p" data-group-id="5653715340-1">%{</span><span class="s">&quot;/input&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="5653715340-2">{</span><span class="w">
-    </span><span class="p" data-group-id="5653715340-3">{</span><span class="nc">Gemini.Site.Input</span><span class="p">,</span><span class="w"> </span><span class="nc">MyInput</span><span class="p" data-group-id="5653715340-3">}</span><span class="p">,</span><span class="w">
-    </span><span class="p" data-group-id="5653715340-4">[</span><span class="ss">as_meta</span><span class="p">:</span><span class="w"> </span><span class="no">false</span><span class="p">,</span><span class="w"> </span><span class="ss">sites</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5653715340-5">%{</span><span class="s">&quot;/&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="5653715340-6">{</span><span class="w">
-        </span><span class="p" data-group-id="5653715340-7">{</span><span class="nc">Gemini.Site.Spy</span><span class="p">,</span><span class="w"> </span><span class="nc">MySpy</span><span class="p" data-group-id="5653715340-7">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5653715340-8">[</span><span class="p" data-group-id="5653715340-8">]</span><span class="p" data-group-id="5653715340-6">}</span><span class="p" data-group-id="5653715340-5">}</span><span class="p" data-group-id="5653715340-4">]</span><span class="p" data-group-id="5653715340-2">}</span><span class="p" data-group-id="5653715340-1">}</span></code></pre><h4><a href="Gemini.Site.Spy.html"><code class="inline">Gemini.Site.Spy</code></a></h4><p>Return all data the server has stored about a given request/user/certificate.</p><pre><code class="makeup elixir"><span class="p" data-group-id="2957618462-1">%{</span><span class="s">&quot;/&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="2957618462-2">{</span><span class="w">
-    </span><span class="p" data-group-id="2957618462-3">{</span><span class="nc">Gemini.Site.Spy</span><span class="p">,</span><span class="w"> </span><span class="nc">MySpy</span><span class="p" data-group-id="2957618462-3">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2957618462-4">[</span><span class="p" data-group-id="2957618462-4">]</span><span class="p" data-group-id="2957618462-2">}</span><span class="p" data-group-id="2957618462-1">}</span></code></pre><h4><a href="Gemini.Site.ExInfo.html"><code class="inline">Gemini.Site.ExInfo</code></a></h4><p>Return information about the running elixir/erlang system.</p><pre><code class="makeup elixir"><span class="p" data-group-id="8981830409-1">%{</span><span class="s">&quot;/&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="8981830409-2">{</span><span class="w">
-    </span><span class="p" data-group-id="8981830409-3">{</span><span class="nc">Gemini.Site.ExInfo</span><span class="p">,</span><span class="w"> </span><span class="nc">MyInfo</span><span class="p" data-group-id="8981830409-3">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8981830409-4">[</span><span class="p" data-group-id="8981830409-4">]</span><span class="p" data-group-id="8981830409-2">}</span><span class="p" data-group-id="8981830409-1">}</span></code></pre><p>This set of modules only provides the most basic functionality. Anything complex regarding user interaction and data storage has to be implemented
+<h4><a href="Gemini.Site.File.html"><code class="inline">Gemini.Site.File</code></a></h4><p>Serves a single file.</p><pre><code class="makeup elixir"><span class="p" data-group-id="4686832897-1">%{</span><span class="s">&quot;/&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="4686832897-2">{</span><span class="w">
+    </span><span class="p" data-group-id="4686832897-3">{</span><span class="nc">Gemini.Site.File</span><span class="p">,</span><span class="w"> </span><span class="nc">MyIndex</span><span class="p" data-group-id="4686832897-3">}</span><span class="p">,</span><span class="w">
+    </span><span class="p" data-group-id="4686832897-4">[</span><span class="s">&quot;public/index&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;text/gemini&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">:infinity</span><span class="p" data-group-id="4686832897-4">]</span><span class="p" data-group-id="4686832897-2">}</span><span class="p" data-group-id="4686832897-1">}</span></code></pre><h4><a href="Gemini.Site.Authenticated.html"><code class="inline">Gemini.Site.Authenticated</code></a></h4><p>Require user certificate.</p><pre><code class="makeup elixir"><span class="p" data-group-id="7593039935-1">%{</span><span class="s">&quot;/auth&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="7593039935-2">{</span><span class="w">
+    </span><span class="p" data-group-id="7593039935-3">{</span><span class="nc">Gemini.Site.Authenticated</span><span class="p">,</span><span class="w"> </span><span class="nc">MyAuth</span><span class="p" data-group-id="7593039935-3">}</span><span class="p">,</span><span class="w">
+    </span><span class="p" data-group-id="7593039935-4">[</span><span class="ss">sites</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="7593039935-5">%{</span><span class="s">&quot;/&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="7593039935-6">{</span><span class="w">
+                </span><span class="p" data-group-id="7593039935-7">{</span><span class="nc">Gemini.Site.File</span><span class="p">,</span><span class="w"> </span><span class="nc">MyAuthedFile</span><span class="p" data-group-id="7593039935-7">}</span><span class="p">,</span><span class="w">
+                </span><span class="p" data-group-id="7593039935-8">[</span><span class="s">&quot;public/authed&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;text/gemini&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">:infinity</span><span class="p" data-group-id="7593039935-8">]</span><span class="p" data-group-id="7593039935-6">}</span><span class="p" data-group-id="7593039935-5">}</span><span class="p" data-group-id="7593039935-4">]</span><span class="p" data-group-id="7593039935-2">}</span><span class="p" data-group-id="7593039935-1">}</span></code></pre><h4><a href="Gemini.Site.Input.html"><code class="inline">Gemini.Site.Input</code></a></h4><p>Require user input.</p><pre><code class="makeup elixir"><span class="p" data-group-id="3947876322-1">%{</span><span class="s">&quot;/input&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="3947876322-2">{</span><span class="w">
+    </span><span class="p" data-group-id="3947876322-3">{</span><span class="nc">Gemini.Site.Input</span><span class="p">,</span><span class="w"> </span><span class="nc">MyInput</span><span class="p" data-group-id="3947876322-3">}</span><span class="p">,</span><span class="w">
+    </span><span class="p" data-group-id="3947876322-4">[</span><span class="ss">as_meta</span><span class="p">:</span><span class="w"> </span><span class="no">false</span><span class="p">,</span><span class="w"> </span><span class="ss">sites</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3947876322-5">%{</span><span class="s">&quot;/&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="3947876322-6">{</span><span class="w">
+        </span><span class="p" data-group-id="3947876322-7">{</span><span class="nc">Gemini.Site.Spy</span><span class="p">,</span><span class="w"> </span><span class="nc">MySpy</span><span class="p" data-group-id="3947876322-7">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3947876322-8">[</span><span class="p" data-group-id="3947876322-8">]</span><span class="p" data-group-id="3947876322-6">}</span><span class="p" data-group-id="3947876322-5">}</span><span class="p" data-group-id="3947876322-4">]</span><span class="p" data-group-id="3947876322-2">}</span><span class="p" data-group-id="3947876322-1">}</span></code></pre><h4><a href="Gemini.Site.Spy.html"><code class="inline">Gemini.Site.Spy</code></a></h4><p>Return all data the server has stored about a given request/user/certificate.</p><pre><code class="makeup elixir"><span class="p" data-group-id="9999336323-1">%{</span><span class="s">&quot;/&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="9999336323-2">{</span><span class="w">
+    </span><span class="p" data-group-id="9999336323-3">{</span><span class="nc">Gemini.Site.Spy</span><span class="p">,</span><span class="w"> </span><span class="nc">MySpy</span><span class="p" data-group-id="9999336323-3">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9999336323-4">[</span><span class="p" data-group-id="9999336323-4">]</span><span class="p" data-group-id="9999336323-2">}</span><span class="p" data-group-id="9999336323-1">}</span></code></pre><h4><a href="Gemini.Site.ExInfo.html"><code class="inline">Gemini.Site.ExInfo</code></a></h4><p>Return information about the running elixir/erlang system.</p><pre><code class="makeup elixir"><span class="p" data-group-id="4276195650-1">%{</span><span class="s">&quot;/&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="4276195650-2">{</span><span class="w">
+    </span><span class="p" data-group-id="4276195650-3">{</span><span class="nc">Gemini.Site.ExInfo</span><span class="p">,</span><span class="w"> </span><span class="nc">MyInfo</span><span class="p" data-group-id="4276195650-3">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4276195650-4">[</span><span class="p" data-group-id="4276195650-4">]</span><span class="p" data-group-id="4276195650-2">}</span><span class="p" data-group-id="4276195650-1">}</span></code></pre><p>This set of modules only provides the most basic functionality. Anything complex regarding user interaction and data storage has to be implemented
 using custom site modules.</p><h3 id="module-custom-modules" class="section-heading">
   <a href="#module-custom-modules" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
   Custom Modules
 </h3>
-<pre><code class="makeup elixir"><span class="kd">defmodule</span><span class="w"> </span><span class="nc">MyModule</span><span class="w"> </span><span class="k" data-group-id="8504447852-1">do</span><span class="w">
+<pre><code class="makeup elixir"><span class="kd">defmodule</span><span class="w"> </span><span class="nc">MyModule</span><span class="w"> </span><span class="k" data-group-id="0961961042-1">do</span><span class="w">
   </span><span class="kn">use</span><span class="w"> </span><span class="nc">Gemini.Site</span><span class="p">,</span><span class="w"> </span><span class="ss">check_path</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="w">
 
-  </span><span class="kd">def</span><span class="w"> </span><span class="nf">start_link</span><span class="p" data-group-id="8504447852-2">(</span><span class="p" data-group-id="8504447852-3">[</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p" data-group-id="8504447852-3">]</span><span class="p" data-group-id="8504447852-2">)</span><span class="w"> </span><span class="k" data-group-id="8504447852-4">do</span><span class="w">
-    </span><span class="nc">GenServer</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="8504447852-5">(</span><span class="bp">__MODULE__</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8504447852-6">[</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p" data-group-id="8504447852-6">]</span><span class="p">,</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">name</span><span class="p" data-group-id="8504447852-5">)</span><span class="w">
-  </span><span class="k" data-group-id="8504447852-4">end</span><span class="w">
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">start_link</span><span class="p" data-group-id="0961961042-2">(</span><span class="p" data-group-id="0961961042-3">[</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p" data-group-id="0961961042-3">]</span><span class="p" data-group-id="0961961042-2">)</span><span class="w"> </span><span class="k" data-group-id="0961961042-4">do</span><span class="w">
+    </span><span class="nc">GenServer</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="0961961042-5">(</span><span class="bp">__MODULE__</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0961961042-6">[</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p" data-group-id="0961961042-6">]</span><span class="p">,</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">name</span><span class="p" data-group-id="0961961042-5">)</span><span class="w">
+  </span><span class="k" data-group-id="0961961042-4">end</span><span class="w">
 
-  </span><span class="kd">def</span><span class="w"> </span><span class="nf">init</span><span class="p" data-group-id="8504447852-7">(</span><span class="p" data-group-id="8504447852-8">[</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p" data-group-id="8504447852-8">]</span><span class="p" data-group-id="8504447852-7">)</span><span class="w"> </span><span class="k" data-group-id="8504447852-9">do</span><span class="w">
-    </span><span class="p" data-group-id="8504447852-10">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8504447852-11">{</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p" data-group-id="8504447852-11">}</span><span class="p" data-group-id="8504447852-10">}</span><span class="w">
-  </span><span class="k" data-group-id="8504447852-9">end</span><span class="w">
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">init</span><span class="p" data-group-id="0961961042-7">(</span><span class="p" data-group-id="0961961042-8">[</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p" data-group-id="0961961042-8">]</span><span class="p" data-group-id="0961961042-7">)</span><span class="w"> </span><span class="k" data-group-id="0961961042-9">do</span><span class="w">
+    </span><span class="p" data-group-id="0961961042-10">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0961961042-11">{</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p" data-group-id="0961961042-11">}</span><span class="p" data-group-id="0961961042-10">}</span><span class="w">
+  </span><span class="k" data-group-id="0961961042-9">end</span><span class="w">
 
-  </span><span class="kd">def</span><span class="w"> </span><span class="nf">path</span><span class="p" data-group-id="8504447852-12">(</span><span class="p" data-group-id="8504447852-13">{</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="c">_args</span><span class="p" data-group-id="8504447852-13">}</span><span class="p" data-group-id="8504447852-12">)</span><span class="p">,</span><span class="w"> </span><span class="ss">do</span><span class="p">:</span><span class="w"> </span><span class="n">path</span><span class="w">
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">path</span><span class="p" data-group-id="0961961042-12">(</span><span class="p" data-group-id="0961961042-13">{</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="c">_args</span><span class="p" data-group-id="0961961042-13">}</span><span class="p" data-group-id="0961961042-12">)</span><span class="p">,</span><span class="w"> </span><span class="ss">do</span><span class="p">:</span><span class="w"> </span><span class="n">path</span><span class="w">
 
-  </span><span class="kd">def</span><span class="w"> </span><span class="nf">forward_request</span><span class="p" data-group-id="8504447852-14">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p" data-group-id="8504447852-14">)</span><span class="w"> </span><span class="k" data-group-id="8504447852-15">do</span><span class="w">
-    </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_response</span><span class="p" data-group-id="8504447852-16">(</span><span class="ss">:success</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;text/plain&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello, World!&quot;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8504447852-17">[</span><span class="p" data-group-id="8504447852-17">]</span><span class="p" data-group-id="8504447852-16">)</span><span class="w">
-    </span><span class="p" data-group-id="8504447852-18">{</span><span class="ss">:reply</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8504447852-19">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p" data-group-id="8504447852-19">}</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p" data-group-id="8504447852-18">}</span><span class="w">
-  </span><span class="k" data-group-id="8504447852-15">end</span><span class="w">
-</span><span class="k" data-group-id="8504447852-1">end</span></code></pre><p>The <code class="inline">request</code> in <a href="Gemini.Site.html#c:forward_request/2"><code class="inline">Gemini.Site.forward_request/2</code></a> is a <a href="Gemini.Request.html"><code class="inline">Gemini.Request</code></a>.
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">forward_request</span><span class="p" data-group-id="0961961042-14">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p" data-group-id="0961961042-14">)</span><span class="w"> </span><span class="k" data-group-id="0961961042-15">do</span><span class="w">
+    </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_response</span><span class="p" data-group-id="0961961042-16">(</span><span class="ss">:success</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;text/plain&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello, World!&quot;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0961961042-17">[</span><span class="p" data-group-id="0961961042-17">]</span><span class="p" data-group-id="0961961042-16">)</span><span class="w">
+    </span><span class="p" data-group-id="0961961042-18">{</span><span class="ss">:reply</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0961961042-19">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p" data-group-id="0961961042-19">}</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p" data-group-id="0961961042-18">}</span><span class="w">
+  </span><span class="k" data-group-id="0961961042-15">end</span><span class="w">
+</span><span class="k" data-group-id="0961961042-1">end</span></code></pre><p>The <code class="inline">request</code> in <a href="Gemini.Site.html#c:forward_request/2"><code class="inline">Gemini.Site.forward_request/2</code></a> is a <a href="Gemini.Request.html"><code class="inline">Gemini.Request</code></a>.
 If you need a user certificate, use your module in a <a href="Gemini.Site.Authenticated.html"><code class="inline">Gemini.Site.Authenticated</code></a> site-map or
 reimplement that behaviour from scratch.
 If you need user input, use your module in a <a href="Gemini.Site.Input.html"><code class="inline">Gemini.Site.Input</code></a> site-map or
@@ -186,6 +195,15 @@ a user certificate, the metadata map is available in <a href="Gemini.Request.htm
   </div>
 
     <div class="summary-synopsis"><p>Get best site (or <code class="inline">{:error, :notfound}</code>) for a path and sitemap.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#log_response/2">log_response(response, request)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Log request &amp; response to Logger.</p></div>
 
 </div>
 <div class="summary-row">
@@ -267,6 +285,30 @@ Functions
       </div>
 
 <p>Get best site (or <code class="inline">{:error, :notfound}</code>) for a path and sitemap.</p>
+  </section>
+</section>
+<section class="detail" id="log_response/2">
+
+  <div class="detail-header">
+    <a href="#log_response/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">log_response(response, request)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>log_response(<a href="Gemini.Response.html#t:t/0">Gemini.Response.t</a>(), <a href="Gemini.Request.html#t:t/0">Gemini.Request.t</a>()) :: :ok</pre>
+
+      </div>
+
+<p>Log request &amp; response to Logger.</p>
   </section>
 </section>
 <section class="detail" id="readable_hash/1">

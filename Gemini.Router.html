@@ -5,12 +5,12 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.24.2">
-    <meta name="project" content="Gemini v0.1.0">
+    <meta name="project" content="Gemini v0.2.0">
 
-    <title>Gemini.Router — Gemini v0.1.0</title>
+    <title>Gemini.Router — Gemini v0.2.0</title>
     <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
 
-    <script src="dist/sidebar_items-3fc2fd5145.js"></script>
+    <script src="dist/sidebar_items-bd69bbdada.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -57,7 +57,7 @@
 Gemini
       </a>
       <strong class="sidebar-projectVersion">
-        v0.1.0
+        v0.2.0
       </strong>
     </div>
 
@@ -79,7 +79,7 @@ Gemini
     <div id="content" class="content-inner">
 
       <h1>
-Gemini.Router <small>behaviour</small> <small class="app-vsn">(Gemini v0.1.0)</small>
+Gemini.Router <small>behaviour</small> <small class="app-vsn">(Gemini v0.2.0)</small>
 
       </h1>
 
@@ -97,6 +97,20 @@ Gemini.Router <small>behaviour</small> <small class="app-vsn">(Gemini v0.1.0)</s
             </a>
             Summary
           </h1>
+
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:forward_return/0">forward_return()</a>
+
+  </div>
+
+</div>
+
+  </div>
 
   <div class="summary-callbacks summary">
     <h2>
@@ -116,6 +130,43 @@ Gemini.Router <small>behaviour</small> <small class="app-vsn">(Gemini v0.1.0)</s
 
         </section>
 
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types
+          </h1>
+          <div class="types-list">
+<section class="detail" id="t:forward_return/0">
+
+  <div class="detail-header">
+    <a href="#t:forward_return/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">forward_return()</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>forward_return() :: {:ok, <a href="Gemini.Response.html#t:t/0">Gemini.Response.t</a>()} | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+
+          </div>
+        </section>
 
         <section id="callbacks" class="details-list">
           <h1 class="section-heading">
@@ -143,8 +194,7 @@ Callbacks
       <h2>Specs</h2>
       <div class="specs">
 
-          <pre>forward_request(request :: <a href="Gemini.Request.html#t:t/0">Gemini.Request.t</a>()) ::
-  {:ok, <a href="Gemini.Response.html#t:t/0">Gemini.Response.t</a>()} | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}</pre>
+          <pre>forward_request(request :: <a href="Gemini.Request.html#t:t/0">Gemini.Request.t</a>()) :: <a href="#t:forward_return/0">forward_return</a>()</pre>
 
       </div>
 
