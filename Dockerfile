@@ -4,6 +4,7 @@ COPY ./ .
 
 ENV MIX_ENV=prod
 RUN mix local.hex --force
+RUN mix local.rebar --force
 RUN mix deps.get
 RUN mix compile
 RUN mix release --overwrite gemini_docker
