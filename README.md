@@ -10,7 +10,10 @@ Gemini server implementation in Elixir.
 - [x] Input
 - [x] Virtual Hosts (`v0.2`)
 - [x] Rate-Limiting (`v0.2`)
-- [ ] Release Configuration (necessary?)
+- [x] Release Configuration (`v0.2`)
+- [ ] "Use as package" guide
+- [ ] More deployment options
+- [ ] Tests
 
 ## Installation (development)
 
