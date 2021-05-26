@@ -5,10 +5,22 @@ defmodule Gemini.MixProject do
     [
       app: :gemini,
       name: "Gemini",
-      version: "0.1.0",
+      version: "0.2.0",
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      releases: [
+        gemini: [
+          config_providers: [
+            {Config.Reader, "/etc/ex_gemini/config.exs"}
+          ]
+        ],
+        gemini_docker: [
+          config_providers: [
+            {Config.Reader, "/config/config.exs"}
+          ]
+        ]
+      ]
     ]
   end
 

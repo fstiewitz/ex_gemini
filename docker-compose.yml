@@ -1,0 +1,27 @@
+version: "3.5"
+services:
+  gemini:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ex_gemini:latest
+    ports:
+      - target: 1965
+        published: 1965
+        protocol: tcp
+        mode: host
+    volumes:
+      - ex_gemini_config:/config
+    secrets:
+      - ex_gemini_cert
+      - ex_gemini_key
+
+secrets:
+  ex_gemini_key:
+    external: true
+  ex_gemini_cert:
+    external: true
+
+volumes:
+  ex_gemini_config:
+    external: true

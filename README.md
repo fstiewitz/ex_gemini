@@ -12,14 +12,34 @@ Gemini server implementation in Elixir.
 - [x] Rate-Limiting (`v0.2`)
 - [ ] Release Configuration (necessary?)
 
-## Installation (standalone)
+## Installation (development)
 
-To use the app as a standalone server:
+To develop the server:
 
 1. Clone this repository
-2. Create server certificate in `certs/`
-3. Configure sites in `config/runtime.exs`.
-4. `iex -S mix` or `mix release`.
+2. `mix deps.get`
+3. `mix compile`
+3. `iex -S mix`
+
+See `config/config.dev.exs` for development settings.
+Obviously don't use this in prod.
+
+## Installation (standalone)
+
+To run the server as a standalone application:
+
+1. Clone this repository (optional: checkout the version you want)
+2. `MIX_ENV=prod mix deps.get`
+3. `MIX_ENV=prod mix compile`
+4. `MIX_ENV=prod mix release gemini`
+5. Copy `_build/prod/rel/gemini` to a good location (like `/opt/ex_gemini`)
+6. Create your server certificates
+7. Create `/etc/ex_gemini/config.exs` (see `config/config.dev.exs` for reference)
+8. Start the server (`/opt/ex_gemini/bin/gemini start`)
+
+## Installation (docker)
+
+See [DEPLOYMENT.md](DEPLOYMENT.md)
 
 ## Installation (as package)
 

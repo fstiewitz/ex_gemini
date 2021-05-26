@@ -98,6 +98,9 @@ defmodule Gemini.Site.Spy do
     {cnt, req}
   end
 
+  defp print_meta({cnt, %Gemini.Request{url: _uri, peer: nil} = req}) do
+    {cnt, req}
+  end
   defp print_meta({cnt, %Gemini.Request{url: _uri, peer: {hash, meta, _cert}} = req}) do
     pr_meta =
       meta
