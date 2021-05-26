@@ -14,7 +14,7 @@ defmodule Gemini.Site.File do
   * `name` name of the server.
   * `path` Path prefix.
 
-  `args` is a list with two arguments:
+  `args` is a list with three arguments:
 
   * a file path
   * meta type of the file contents

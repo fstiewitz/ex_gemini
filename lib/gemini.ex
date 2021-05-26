@@ -14,7 +14,7 @@ defmodule Gemini do
   1. `:ranch` creates a `Gemini.ClientConnection` for a connection.
   2. `Gemini.ClientConnection` reads the request.
   3. If request includes a client certificate, `Gemini.ClientConnection` registers a session with `Gemini.UserCache`.
-  4. `Gemini.ClientConnection` builds the a `Gemini.Request` and forwards it to `Gemini.Router`.
+  4. `Gemini.ClientConnection` builds a `Gemini.Request` and forwards it to `Gemini.Router`.
   5. The top-level `Gemini.Router` uses the site map `:sites` (in config) to find a module to forward the request to (a "Site-Module").
   6. That site module takes the `Gemini.Request` and returns a `Gemini.Response`.
   7. `Gemini.ClientConnection` sends the `Gemini.Response` and closes the connection.
