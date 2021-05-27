@@ -39,5 +39,4 @@ defmodule Gemini.DefaultRouter do
       {:error, x} -> {:error, x}
     end
   end
-
 end

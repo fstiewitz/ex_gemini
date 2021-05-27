@@ -29,21 +29,30 @@ defmodule Gemini.ClientConnection do
   def loop(socket, transport, buffer, {addr, status}, router) do
     case transport.recv(socket, 0, 5000) do
       {:ok, data} ->
-        if String.contains?(data, "\r\n") do
-          case status do
-            :not_limited ->
-              process_request(socket, transport, buffer, data, router, addr)
+        cond do
+          String.contains?(data, "\r\n") ->
+            case status do
+              :not_limited ->
+                process_request(socket, transport, buffer, data, router, addr)
 
-            {:limited, x} ->
-              Logger.info("44 #{:inet.ntoa(addr)}")
+              {:limited, x} ->
+                Logger.info("44 #{:inet.ntoa(addr)}")
 
-              transport.send(
-                socket,
-                Gemini.Binary.binary(Gemini.Site.make_response(:slow_down, x, nil, []))
-              )
-          end
-        else
-          loop(socket, transport, buffer <> data, {addr, status}, router)
+                transport.send(
+                  socket,
+                  Gemini.Binary.binary(Gemini.Site.make_response(:slow_down, x, nil, []))
+                )
+            end
+
+          String.length(buffer) > 3000 ->
+            if addr != nil do
+              Logger.info("99 #{:inet.ntoa(addr)}")
+            end
+
+            :ok = transport.close(socket)
+
+          true ->
+            loop(socket, transport, buffer <> data, {addr, status}, router)
         end
 
       _ ->

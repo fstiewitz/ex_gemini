@@ -1,3 +1,3 @@
 import Config
 
-import_config("config.#{Mix.env}.exs")
+import_config("config.#{Mix.env()}.exs")
