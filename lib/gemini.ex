@@ -62,6 +62,14 @@ defmodule Gemini do
           {Gemini.Site.File, MyIndex},
           ["public/index", "text/gemini", :infinity]}}
 
+  #### `Gemini.Site.Directory`
+  Serves a directory.
+
+      %{"/" => {
+          {Gemini.Site.Directory, MyIndex},
+          ["public", %{".txt" => "text/plain", ".gemini" => "text/gemini"}]
+      }}
+
   #### `Gemini.Site.Authenticated`
   Require user certificate.
 

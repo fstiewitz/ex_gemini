@@ -24,12 +24,12 @@ config :gemini, :rate_limit_bracket_duration, 1
 
 config :gemini, :router, Gemini.DefaultRouter
 
-# Every service is a data structure of shape {Prefix, {Type, [Name, [Arguments]]}}
 config :gemini, :sites, %{
   "localhost" => %{
     # show index page
     "/" => {{Gemini.Site.File, Web.Index}, ["public/index", "text/gemini", :infinity]},
     "/version" => {{Gemini.Site.ExInfo, Web.ExInfo}, []},
+    "/dir" => {{Gemini.Site.Directory, Web.Dir}, ["public/directory", %{".txt" => "text/plain"}]},
     "/auth" =>
       {{Gemini.Site.Authenticated, Web.Authenticated},
        [

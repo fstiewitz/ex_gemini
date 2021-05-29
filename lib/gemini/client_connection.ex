@@ -18,7 +18,11 @@ defmodule Gemini.ClientConnection do
   def init(ref, transport, options) do
     {:ok, socket} = :ranch.handshake(ref)
     rate_limit_status = check_rate_limit(transport, socket, options[:rate_limit])
-    loop(socket, transport, "", rate_limit_status, options[:router])
+
+    case rate_limit_status do
+      {:error, _x} -> transport.close(socket)
+      {addr, status} -> loop(socket, transport, "", {addr, status}, options[:router])
+    end
   end
 
   @type limited :: {:inet.ip_address(), {:limited, pos_integer()}}
@@ -31,23 +35,10 @@ defmodule Gemini.ClientConnection do
       {:ok, data} ->
         cond do
           String.contains?(data, "\r\n") ->
-            case status do
-              :not_limited ->
-                process_request(socket, transport, buffer, data, router, addr)
-
-              {:limited, x} ->
-                Logger.info("44 #{:inet.ntoa(addr)}")
-
-                transport.send(
-                  socket,
-                  Gemini.Binary.binary(Gemini.Site.make_response(:slow_down, x, nil, []))
-                )
-            end
+            process_with_rate_limit(socket, transport, buffer <> data, {addr, status}, router)
 
           String.length(buffer) > 3000 ->
-            if addr != nil do
-              Logger.info("99 #{:inet.ntoa(addr)}")
-            end
+            log_invalid(addr)
 
             :ok = transport.close(socket)
 
@@ -60,6 +51,24 @@ defmodule Gemini.ClientConnection do
     end
   end
 
+  defp process_with_rate_limit(socket, transport, buffer, {addr, status}, router) do
+    case status do
+      :not_limited ->
+        process_request(socket, transport, buffer, router, addr)
+
+      {:limited, x} ->
+        Logger.info("44 #{:inet.ntoa(addr)}")
+
+        transport.send(
+          socket,
+          Gemini.Binary.binary(Gemini.Site.make_response(:slow_down, x, nil, []))
+        )
+    end
+  end
+
+  defp log_invalid(nil), do: nil
+  defp log_invalid(addr), do: Logger.info("99 #{:inet.ntoa(addr)}")
+
   defp check_rate_limit(_transport, _socket, false), do: {nil, :not_limited}
 
   defp check_rate_limit(transport, socket, rate_limit) do
@@ -68,13 +77,12 @@ defmodule Gemini.ClientConnection do
         {addr, rate_limit.is_rate_limited(addr)}
 
       {:error, reason} ->
-        Logger.error("cannot get peer address. rate limiting may not work: #{inspect(reason)}")
-        {nil, :not_limited}
+        {:error, reason}
     end
   end
 
-  defp process_request(socket, transport, buffer, data, router, addr) do
-    url = String.split(buffer <> data, "\r\n", parts: 2) |> hd
+  defp process_request(socket, transport, buffer, router, addr) do
+    url = String.split(buffer, "\r\n", parts: 2) |> hd
 
     uri =
       case URI.parse(url) do
