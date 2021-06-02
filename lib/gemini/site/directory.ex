@@ -8,6 +8,9 @@ defmodule Gemini.Site.Directory do
     This module serves everything in a directory.
   """
 
+  @type meta_spec :: binary() | {atom(), any()}
+  @type meta :: %{binary() => meta_spec()} | meta_spec() | (binary() -> meta_spec() | {binary(), meta_spec()})
+
   @doc """
   Start site.
 
@@ -18,16 +21,18 @@ defmodule Gemini.Site.Directory do
   `args` is a list with two arguments:
 
   * a directory path
-  * meta type associations by file suffix (map extension to meta type)
+  * meta type associations
 
-  Files that cannot be matched in `meta` are served as `application/octet-stream`.
+  `meta` can be:
+  * A meta string (all files will be served with this meta type)
+  * A map of `suffix => meta` (filename will be checked against these suffixes, `application/octet-stream` as fallback)
+  * A function `fn filename -> ... end` which, given a file path, returns either a meta type or a tuple of `{alt_path, meta}` where `alt_path`
+  is the file which will be read.
   """
   @impl Gemini.Site
   def start_link([name, path, args]) do
     GenServer.start_link(__MODULE__, [path, args], name: name)
   end
-
-  @type cache_spec() :: :disabled | :infinity | pos_integer()
 
   @impl true
   def init([path, [dir, meta]]) do
@@ -46,7 +51,7 @@ defmodule Gemini.Site.Directory do
     {:reply, read_dir(dir, meta, p, path), state}
   end
 
-  @spec read_dir(binary(), %{binary() => binary() | {atom(), any()}}, binary(), binary()) ::
+  @spec read_dir(binary(), meta(), binary(), binary()) ::
           {:ok, Gemini.Response.t()} | {:error, :notfound}
   def read_dir(base, meta, "/" <> p, path), do: read_dir(base, meta, p, path)
 
@@ -55,8 +60,9 @@ defmodule Gemini.Site.Directory do
     exp = Path.expand(p, base)
 
     if String.starts_with?(exp, base) do
-      case File.read(exp) do
-        {:ok, r} -> {:ok, make_response(:success, find_meta(meta, p), r, [])}
+      {e, m} = find_meta(meta, exp)
+      case File.read(e) do
+        {:ok, r} -> {:ok, make_response(:success, m, r, [])}
         {:error, _x} -> {:error, :notfound}
       end
     else
@@ -64,12 +70,22 @@ defmodule Gemini.Site.Directory do
     end
   end
 
-  defp find_meta(meta, p) do
+  defp find_meta(meta, p) when is_map(meta) do
     {_k, v} =
       meta
       |> Map.to_list()
       |> Enum.find({'', "application/octet-stream"}, fn {k, _v} -> String.ends_with?(p, k) end)
 
-    v
+    {p, v}
   end
+
+  defp find_meta(meta, p) when is_function(meta) do
+    case meta.(p) do
+      x when is_binary(x) -> {p, x}
+      {a, r} when is_binary(a) -> {a, r}
+      {a, r} -> {p, {a, r}}
+    end
+  end
+
+  defp find_meta(meta, p), do: {p, meta}
 end

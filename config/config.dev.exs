@@ -24,12 +24,30 @@ config :gemini, :rate_limit_bracket_duration, 1
 
 config :gemini, :router, Gemini.DefaultRouter
 
+meta = fn p ->
+  case p |> Path.basename() do
+    "hello.txt" -> "text/plain"
+    _ -> "application/octet-stream"
+  end
+end
+
+meta2 = fn p ->
+  case p |> Path.basename() do
+    "hello" -> {"#{p}.txt", "text/plain"}
+    "hello.txt" -> "text/plain"
+    _ -> "application/octet-stream"
+  end
+end
+
 config :gemini, :sites, %{
   "localhost" => %{
     # show index page
     "/" => {{Gemini.Site.File, Web.Index}, ["public/index", "text/gemini", :infinity]},
     "/version" => {{Gemini.Site.ExInfo, Web.ExInfo}, []},
     "/dir" => {{Gemini.Site.Directory, Web.Dir}, ["public/directory", %{".txt" => "text/plain"}]},
+    "/dir2" => {{Gemini.Site.Directory, Web.Dir2}, ["public/directory", "text/plain"]},
+    "/dir3" => {{Gemini.Site.Directory, Web.Dir3}, ["public/directory", meta]},
+    "/dir4" => {{Gemini.Site.Directory, Web.Dir4}, ["public/directory", meta2]},
     "/auth" =>
       {{Gemini.Site.Authenticated, Web.Authenticated},
        [
