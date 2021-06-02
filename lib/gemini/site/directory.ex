@@ -56,6 +56,11 @@ defmodule Gemini.Site.Directory do
   def read_dir(base, meta, "/" <> p, path), do: read_dir(base, meta, p, path)
 
   def read_dir(base, meta, p, path) do
+    path = if path == "" do
+      "/"
+    else
+      path
+    end
     p = Path.relative_to("/" <> p, path)
     exp = Path.expand(p, base)
 
