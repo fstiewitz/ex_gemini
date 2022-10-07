@@ -1,4 +1,4 @@
-# Copyright (c) 2021      Fabian Stiewitz <fabian@stiewitz.pw>
+# Copyright (c) 2021-2022 Fabian Stiewitz <fabian@stiewitz.pw>
 # Licensed under the EUPL-1.2
 defmodule Gemini.Site.File do
   use Gemini.Site, check_path: true

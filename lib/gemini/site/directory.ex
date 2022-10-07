@@ -1,4 +1,4 @@
-# Copyright (c) 2021      Fabian Stiewitz <fabian@stiewitz.pw>
+# Copyright (c) 2021-2022 Fabian Stiewitz <fabian@stiewitz.pw>
 # Licensed under the EUPL-1.2
 defmodule Gemini.Site.Directory do
   use Gemini.Site, check_path: false
@@ -9,7 +9,10 @@ defmodule Gemini.Site.Directory do
   """
 
   @type meta_spec :: binary() | {atom(), any()}
-  @type meta :: %{binary() => meta_spec()} | meta_spec() | (binary() -> meta_spec() | {binary(), meta_spec()})
+  @type meta ::
+          %{binary() => meta_spec()}
+          | meta_spec()
+          | (binary() -> meta_spec() | {binary(), meta_spec()})
 
   @doc """
   Start site.
@@ -56,16 +59,19 @@ defmodule Gemini.Site.Directory do
   def read_dir(base, meta, "/" <> p, path), do: read_dir(base, meta, p, path)
 
   def read_dir(base, meta, p, path) do
-    path = if path == "" do
-      "/"
-    else
-      path
-    end
+    path =
+      if path == "" do
+        "/"
+      else
+        path
+      end
+
     p = Path.relative_to("/" <> p, path)
     exp = Path.expand(p, base)
 
     if String.starts_with?(exp, base) do
       {e, m} = find_meta(meta, exp)
+
       case File.read(e) do
         {:ok, r} -> {:ok, make_response(:success, m, r, [])}
         {:error, _x} -> {:error, :notfound}

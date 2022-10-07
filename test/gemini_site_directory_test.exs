@@ -35,7 +35,8 @@ defmodule GeminiSiteDirectoryTest do
   end
 
   test "bad outside" do
-    assert {:error, :notfound} == Gemini.Site.Directory.read_dir(@base, @meta, "///etc/hosts", "/d")
+    assert {:error, :notfound} ==
+             Gemini.Site.Directory.read_dir(@base, @meta, "///etc/hosts", "/d")
 
     assert {:error, :notfound} ==
              Gemini.Site.Directory.read_dir(@base, @meta, "/d/../test_helper.exs", "/d")
