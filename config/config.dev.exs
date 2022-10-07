@@ -39,6 +39,42 @@ meta2 = fn p ->
   end
 end
 
+# Example of simple login function, checking certificate hash against whitelist.
+# Hash listed here is from my own test cert.
+good_users =
+  [
+    "64F1810F25F317829F5D4050E0147DE4F22D785426867CCD1B5A01C549C2FD47E8639AE07A25DF4512E65C2B492B6468AE06BBDDD80DF0C65B96FC2D9C5D32E2"
+  ]
+  |> Enum.map(fn hash ->
+    hash
+    |> :erlang.bitstring_to_list()
+    |> Enum.chunk_every(2)
+    |> Enum.map(&to_string(&1))
+    |> Enum.map(&String.to_integer(&1, 16))
+    |> :binary.list_to_bin()
+  end)
+
+login = fn {hash, _meta, _cert} ->
+  hash
+  |> :binary.bin_to_list()
+  |> Enum.map(&Integer.to_string(&1, 16))
+  |> Enum.map(&String.pad_leading(&1, 2, "0"))
+  |> Enum.join()
+  |> IO.inspect()
+
+  good_users
+  |> Enum.map(fn ch ->
+    ch
+    |> :binary.bin_to_list()
+    |> Enum.map(&Integer.to_string(&1, 16))
+    |> Enum.map(&String.pad_leading(&1, 2, "0"))
+    |> Enum.join()
+    |> IO.inspect()
+  end)
+
+  Enum.find(good_users, fn x -> x == hash end) != nil
+end
+
 config :gemini, :sites, %{
   "localhost" => %{
     # show index page
@@ -55,6 +91,16 @@ config :gemini, :sites, %{
          sites: %{
            "/" => {{Gemini.Site.File, Web.AuthFile}, ["public/authed", "text/gemini", :infinity]},
            "/test" => {{Gemini.Site.Spy, Web.SpyAuthed}, []}
+         }
+       ]},
+    "/auth2" =>
+      {{Gemini.Site.Authenticated, Web.Authenticated2},
+       [
+         signup: false,
+         login: login,
+         sites: %{
+           "/" => {{Gemini.Site.File, Web.AuthFile2}, ["public/authed", "text/gemini", :infinity]},
+           "/test" => {{Gemini.Site.Spy, Web.SpyAuthed2}, []}
          }
        ]},
     "/spy" => {Gemini.Site.Spy, []},
